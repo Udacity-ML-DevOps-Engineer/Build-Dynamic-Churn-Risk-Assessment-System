@@ -16,6 +16,7 @@ This project is to build a dynamic churn risk assessment system for corporate cl
 2024-11-12 13:54:12,959 - INFO - Saved final dataframe to ingesteddata\finaldata.csv      
 2024-11-12 13:54:12,960 - INFO - Recorded ingested files to ingesteddata\ingestedfiles.txt
 2024-11-12 13:54:12,960 - INFO - Data ingestion process completed
+```
 
 
 2. Training, scoring, and deploying the model: The model is trained on the data and deployed to a server.
@@ -56,14 +57,15 @@ This project is to build a dynamic churn risk assessment system for corporate cl
 
 Please use the following commands to run the diagnostics:
 
-```
+    ```bash
     python diagnostics.py predictions  # Run only model predictions
     python diagnostics.py statistics  # Run only summary statistics
     python diagnostics.py missing     # Run only missing data check
     python diagnostics.py timing      # Run only timing measurements
     python diagnostics.py outdated    # Run only outdated packages check
-    python diagnostics.py            # Run all functions (default behavior)
-```
+    python diagnostics.py             # Run all functions (default behavior)
+    ```
+
 
 ```python .\diagnostics.py predictions
 2024-11-12 14:09:31,070 - INFO - Running model predictions...
