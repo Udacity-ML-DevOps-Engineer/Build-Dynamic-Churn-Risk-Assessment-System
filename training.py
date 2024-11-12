@@ -8,25 +8,54 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 import json
 
-###################Load config.json and get path variables
+# Load config.json and get path variables
 with open('config.json','r') as f:
     config = json.load(f) 
 
-dataset_csv_path = os.path.join(config['output_folder_path']) 
-model_path = os.path.join(config['output_model_path']) 
+# Function for training the model
+def train_model(dataset_csv_path, model_path, output_data_file, output_model_file):
+    try:
+        #use this logistic regression for training
+        model = LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+                        intercept_scaling=1, l1_ratio=None, max_iter=100,
+                        multi_class='auto', n_jobs=None, penalty='l2',
+                        random_state=0, solver='liblinear', tol=0.0001, verbose=0,
+                        warm_start=False)
+        
+        #load the finaldata.csv
+        data = pd.read_csv(dataset_csv_path)
 
+        #define your X and y
+        X = data.drop(columns=['corporation', 'exited'], axis=1)
+        y = data['exited']
 
-#################Function for training the model
-def train_model():
-    
-    #use this logistic regression for training
-    LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
-                    intercept_scaling=1, l1_ratio=None, max_iter=100,
-                    multi_class='warn', n_jobs=None, penalty='l2',
-                    random_state=0, solver='liblinear', tol=0.0001, verbose=0,
-                    warm_start=False)
-    
-    #fit the logistic regression to your data
-    
-    #write the trained model to your workspace in a file called trainedmodel.pkl
+        #split the data into training and testing set
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        
+        #fit the logistic regression to your data
+        model.fit(X_train, y_train)
+        
+        #create output directory if it doesn't exist
+        os.makedirs(os.path.dirname(model_path), exist_ok=True)
+        
+        #write the trained model to your workspace
+        with open(model_path, 'wb') as file:
+            pickle.dump(model, file)
+            
+        return model
+        
+    except Exception as e:
+        print(f"Error in model training: {str(e)}")
+        return None
 
+if __name__ == '__main__':
+    dataset_csv_path = os.path.join(config['output_folder_path'], config['output_data_file']) 
+    model_path = os.path.join(config['output_model_path'], config['output_model_file'])
+    
+    print("Starting model training...")
+    model = train_model(dataset_csv_path, model_path, config['output_data_file'], config['output_model_file'])
+    if model is not None:
+        print("Model training completed successfully")
+        print(f"Model saved to: {model_path}")
+    else:
+        print("Model training failed")
