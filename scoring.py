@@ -23,6 +23,11 @@ def score_model(output_model_path, test_data_path):
         #load the test data from the test_data_path
         test_file = [f for f in os.listdir(test_data_path) if f.endswith('.csv')][0]
         test_data = pd.read_csv(os.path.join(test_data_path, test_file))
+        
+        # Add data validation
+        if test_data.empty:
+            logging.error("Test data is empty")
+            return None
        
         #define your X and y
         X_test = test_data.drop(columns=['corporation', 'exited'], axis=1)
@@ -44,6 +49,9 @@ def score_model(output_model_path, test_data_path):
         logging.info(f"Model scoring completed successfully with F1 Score: {score}")
         return score
     
+    except IndexError as e:
+        logging.error(f"Index error in scoring: {str(e)}")
+        return None
     except Exception as e:
         logging.error(f"Error in model scoring: {str(e)}")
         return None

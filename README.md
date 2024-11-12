@@ -157,3 +157,24 @@ python.exe .\reporting.py
 
 5. Process Automation
 
+```python
+python .\fullprocess.py
+New files found. Running ingestion process
+2024-11-12 18:34:58,249 - INFO - Found 2 files in sourcedata      
+2024-11-12 18:34:58,264 - INFO - Read file sourcedata\dataset3.csv
+2024-11-12 18:34:58,268 - INFO - Read file sourcedata\dataset4.csv
+2024-11-12 18:34:58,296 - INFO - Concatenated dataframes and removed duplicates
+2024-11-12 18:34:58,303 - INFO - Saved final dataframe to ingesteddata\finaldata.csv
+2024-11-12 18:34:58,306 - INFO - Recorded ingested files to ingesteddata\ingestedfiles.txt     
+2024-11-12 18:34:58,316 - INFO - Retrieved old score: 0.5714285714285715
+2024-11-12 18:34:58,316 - INFO - Loading the trained model from the output_model_path directory
+2024-11-12 18:34:58,319 - INFO - Loading the test data from the test_data_path
+2024-11-12 18:34:58,337 - INFO - Predicting the test data
+2024-11-12 18:34:58,354 - INFO - Calculating the F1 score
+2024-11-12 18:34:58,364 - INFO - Writing the result to the latestscore.txt file
+2024-11-12 18:34:58,365 - INFO - Model scoring completed successfully with F1 Score: 0.6923076923076923
+2024-11-12 18:34:58,366 - INFO - Calculated new score: 0.6923076923076923
+No model drift detected. Maintaining current model.
+```
+
+
