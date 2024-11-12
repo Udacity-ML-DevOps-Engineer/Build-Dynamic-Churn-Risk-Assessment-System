@@ -25,26 +25,62 @@ prediction_model = None
 
 
 # Prediction Endpoint
-@app.route("/prediction", methods=['POST','OPTIONS'])
+@app.route("/prediction", methods=['POST'])  # Changed from @app.post to @app.route with methods
 def predict():
-    # get dataset location from POST request
     dataset_path = request.json.get('dataset_path')
+    if not dataset_path:
+        return jsonify({"error": "dataset_path is required"}), 400
+    
+    # Handle path correctly
+    dataset_path = os.path.abspath(dataset_path)
+    print(f"Debug: Processing prediction for path: {dataset_path}")
+    
+    if not os.path.exists(dataset_path):
+        return jsonify({"error": f"File not found: {dataset_path}"}), 404
     
     try:
         # read data and make predictions using imported model_predictions function
         predictions = model_predictions(dataset_path, prod_deployment_path)
-        return jsonify(predictions.tolist())
+        if predictions is None:
+            return jsonify({"error": "Failed to generate predictions"}), 500
+        # Convert predictions to list if it's numpy array, or keep as list if already list
+        pred_list = predictions.tolist() if hasattr(predictions, 'tolist') else list(predictions)
+        return jsonify(pred_list)
     except Exception as e:
-        return jsonify({"error": str(e)}), 400
+        print(f"Error in prediction: {str(e)}")
+        return jsonify({"error": f"Prediction error: {str(e)}"}), 500
 
 # Scoring Endpoint
-@app.route("/scoring", methods=['GET','OPTIONS'])
+@app.route("/scoring", methods=['GET'])  # Changed from @app.get to @app.route with methods
 def scoring():        
     try:
-        score = score_model(test_data_path, prod_deployment_path)
-        return jsonify({'F1 score': score})
+        test_path = os.path.abspath(test_data_path)
+        model_path = os.path.abspath(prod_deployment_path)
+        
+        print(f"Debug: Using test path: {test_path}")
+        print(f"Debug: Using model path: {model_path}")
+        
+        if not os.path.exists(test_path):
+            return jsonify({"error": f"Test data not found at {test_path}"}), 404
+            
+        if not os.path.exists(model_path):
+            return jsonify({"error": f"Model not found at {model_path}"}), 404
+            
+        score = score_model(model_path, test_path)
+        print(f"Debug: Calculated score: {score}")
+        
+        if score is None:
+            return jsonify({"error": "Failed to calculate score - received None"}), 500
+        
+        try:
+            score_value = float(score)
+            return jsonify({'F1 score': score_value})
+        except (ValueError, TypeError) as e:
+            return jsonify({"error": f"Invalid score format: {score}. Error: {str(e)}"}), 500
+            
     except Exception as e:
-        return jsonify({"error": str(e)}), 400
+        print(f"Error in scoring: {str(e)}")
+        return jsonify({"error": f"Scoring error: {str(e)}"}), 500
 
 # Summary Statistics Endpoint
 @app.route("/summarystats", methods=['GET','OPTIONS'])
