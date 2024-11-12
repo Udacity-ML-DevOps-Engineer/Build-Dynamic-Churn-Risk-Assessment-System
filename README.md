@@ -7,7 +7,7 @@ This project is to build a dynamic churn risk assessment system for corporate cl
 
 1. Data ingestion: The data is ingested from a CSV file and stored in a database.
 
-``` python .\ingestion.py
+```python .\ingestion.py
 2024-11-12 13:54:12,945 - INFO - Starting data ingestion process
 2024-11-12 13:54:12,946 - INFO - Found 2 files in practicedata
 2024-11-12 13:54:12,949 - INFO - Read file practicedata\dataset1.csv
@@ -19,7 +19,7 @@ This project is to build a dynamic churn risk assessment system for corporate cl
 ```
 2. Training, scoring, and deploying the model: The model is trained on the data and deployed to a server.
 
-``` python .\training.py 
+```python .\training.py 
 2024-11-12 13:58:56,387 - INFO - Starting model training...
 2024-11-12 13:58:56,394 - INFO - Loaded data from ingesteddata\finaldata.csv
 2024-11-12 13:58:56,406 - INFO - Data split into training and testing sets  
@@ -28,7 +28,7 @@ This project is to build a dynamic churn risk assessment system for corporate cl
 2024-11-12 13:58:56,436 - INFO - Model training completed successfully
 ```
 
-``` python .\scoring.py
+```python .\scoring.py
 2024-11-12 14:02:48,545 - INFO - Starting model scoring...
 2024-11-12 14:02:48,545 - INFO - Loading the trained model from the output_model_path directory
 2024-11-12 14:02:48,699 - INFO - Loading the test data from the test_data_path
@@ -42,7 +42,7 @@ This project is to build a dynamic churn risk assessment system for corporate cl
 
 ```
 
-``` python .\deployment.py
+```python .\deployment.py
 2024-11-12 14:05:19,776 - INFO - Starting model deployment script...
 2024-11-12 14:05:19,776 - INFO - Starting the model deployment process...   
 2024-11-12 14:05:19,779 - INFO - Copied latest pickle file: trainedmodel.pkl
@@ -80,7 +80,7 @@ Please use the following commands to run the diagnostics:
 [165.65384615384616, 73.0, 284.0332293669446, 1502.923076923077, 955.0, 2192.6449584568304, 26.884615384615383, 14.0, 31.35388578543581, 0.5769230769230769, 1.0, 0.5038314736557788]
 ```
 
-``` python .\diagnostics.py timing    
+```python .\diagnostics.py timing    
 2024-11-12 14:15:22,383 - INFO - Measuring execution time...
 2024-11-12 14:15:22,383 - INFO - Measuring execution time for ingestion script...
 2024-11-12 14:15:23,544 - INFO - Starting data ingestion process
@@ -101,14 +101,14 @@ Please use the following commands to run the diagnostics:
 [1.275716, 3.5994024999999996]
 ```
 
-``` python .\diagnostics.py missing
+```python .\diagnostics.py missing
 2024-11-12 14:17:52,778 - INFO - Checking missing data...
 2024-11-12 14:17:52,778 - INFO - Reading data to check for missing values...
 2024-11-12 14:17:52,778 - INFO - Calculating missing data percentages...    
 [0.0, 0.0, 0.0, 0.0, 0.0]
 ```
 
-```  python .\diagnostics.py outdated
+```python .\diagnostics.py outdated
 2024-11-12 14:19:01,306 - INFO - Checking outdated packages...
 2024-11-12 14:19:01,306 - INFO - Checking for outdated packages...
 [['click', '7.1.2', '8.1.7'], ['cycler', '0.10.0', '0.12.1'], ['Flask', '1.1.2', '3.0.3'], ['itsdangerous', '1.1.0', 
