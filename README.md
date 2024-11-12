@@ -8,6 +8,15 @@ This project is to build a dynamic churn risk assessment system for corporate cl
 1. Data ingestion: The data is ingested from a CSV file and stored in a database.
 2. Training, scoring, and deploying the model: The model is trained on the data and deployed to a server.
 3. Diagnostics: The model is monitored for accuracy and performance.
+
+```
+    python diagnostics.py predictions  # Run only model predictions
+    python diagnostics.py statistics  # Run only summary statistics
+    python diagnostics.py missing     # Run only missing data check
+    python diagnostics.py timing      # Run only timing measurements
+    python diagnostics.py outdated    # Run only outdated packages check
+    python diagnostics.py            # Run all functions (default behavior)
+```
 4. Reporting
 5. Process Automation
 
