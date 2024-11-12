@@ -4,10 +4,16 @@ import shutil
 import pandas as pd
 import numpy
 import pickle
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def store_model_into_pickle(dataset_csv_path, output_model_path, prod_deployment_path):
     #copy the latest pickle file, the latestscore.txt value, and the ingestfiles.txt file into the deployment directory
     try:
+        logging.info("Starting the model deployment process...")
+
         # Normalize and validate paths
         dataset_csv_path = os.path.normpath(dataset_csv_path) if dataset_csv_path else None
         output_model_path = os.path.normpath(output_model_path) if output_model_path else None
@@ -34,6 +40,7 @@ def store_model_into_pickle(dataset_csv_path, output_model_path, prod_deployment
             os.path.join(output_model_path, latest_pickle),
             os.path.join(prod_deployment_path, latest_pickle)
         )
+        logging.info(f"Copied latest pickle file: {latest_pickle}")
 
         # Copy the latestscore.txt
         score_files = [f for f in os.listdir(output_model_path) if f.endswith('.txt')]
@@ -44,6 +51,7 @@ def store_model_into_pickle(dataset_csv_path, output_model_path, prod_deployment
             os.path.join(output_model_path, latest_score),
             os.path.join(prod_deployment_path, latest_score)
         )
+        logging.info(f"Copied latest score file: {latest_score}")
 
         # Copy the ingestfiles.txt
         ingest_files = [f for f in os.listdir(dataset_csv_path) if f.endswith('.txt')]
@@ -54,16 +62,18 @@ def store_model_into_pickle(dataset_csv_path, output_model_path, prod_deployment
             os.path.join(dataset_csv_path, ingest_file),
             os.path.join(prod_deployment_path, ingest_file)
         )
+        logging.info(f"Copied ingest file: {ingest_file}")
 
+        logging.info("Model deployment completed successfully")
         return True
 
     except Exception as e:
-        print(f"Error in model deployment: {str(e)}")
+        logging.error(f"Error in model deployment: {str(e)}")
         return None
 
 if __name__ == '__main__':
     try:
-        print("Starting model deployment...")
+        logging.info("Starting model deployment script...")
         if not os.path.exists('config.json'):
             raise FileNotFoundError("config.json not found in current directory")
             
@@ -80,7 +90,6 @@ if __name__ == '__main__':
             config['prod_deployment_path']
         )
         if deployment is not None:
-            print("Model deployment completed successfully")
-            print(f"Model deployed to: {config['prod_deployment_path']}")
+            logging.info(f"Model deployed to: {config['prod_deployment_path']}")
     except Exception as e:
-        print(f"Error in main: {str(e)}")
+        logging.error(f"Error in main: {str(e)}")

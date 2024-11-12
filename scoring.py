@@ -4,50 +4,58 @@ import numpy as np
 import pickle
 from sklearn import metrics
 import json
+import logging
 
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-def score_model(output_model_path, test_data_path, output_model_file, test_data_file):
+def score_model(output_model_path, test_data_path):
     #this function should take a trained model, load test data, and calculate an F1 score for the model relative to the test data
     #it should write the result to the latestscore.txt file
 
     try:
-        #load the trained model from the output_model_path directory and output_model_file
-        model = pickle.load(open(os.path.join(output_model_path, output_model_file), 'rb'))
+        logging.info("Loading the trained model from the output_model_path directory")
+        #load the trained model from the output_model_path directory
+        model_file = [f for f in os.listdir(output_model_path) if f.endswith('.pkl')][0]
+        model = pickle.load(open(os.path.join(output_model_path, model_file), 'rb'))
         
+        logging.info("Loading the test data from the test_data_path")
         #load the test data from the test_data_path
-        test_file_path = os.path.join(test_data_path, test_data_file)
-        test_data = pd.read_csv(test_file_path)
+        test_file = [f for f in os.listdir(test_data_path) if f.endswith('.csv')][0]
+        test_data = pd.read_csv(os.path.join(test_data_path, test_file))
        
         #define your X and y
         X_test = test_data.drop(columns=['corporation', 'exited'], axis=1)
         y_test = test_data['exited']
 
+        logging.info("Predicting the test data")
         #predict the test data
         y_pred = model.predict(X_test)
 
+        logging.info("Calculating the F1 score")
         #calculate the F1 score
         score = metrics.f1_score(y_test, y_pred)
 
+        logging.info("Writing the result to the latestscore.txt file")
         #write the result to the latestscore.txt file
         with open(os.path.join(output_model_path, 'latestscore.txt'), 'w') as file:
             file.write(str(score))
 
+        logging.info(f"Model scoring completed successfully with F1 Score: {score}")
         return score
     
     except Exception as e:
-        print(f"Error in model scoring: {str(e)}")
+        logging.error(f"Error in model scoring: {str(e)}")
         return None
     
 if __name__ == '__main__':
-    print("Starting model scoring...")
+    logging.info("Starting model scoring...")
     config = json.load(open('config.json', 'r'))
     output_model_path = config['output_model_path']
     test_data_path = config['test_data_path']
-    output_model_file = config['output_model_file']
-    test_data_file = [f for f in os.listdir(test_data_path) if f.endswith('.csv')][0]
     
-    score = score_model(output_model_path, test_data_path, output_model_file, test_data_file)
+    score = score_model(output_model_path, test_data_path)
     if score is not None:
-        print("Model scoring completed successfully")
-        print(f"F1 Score: {score}")
-        print("Score saved to: latestscore.txt")
+        logging.info("Model scoring completed successfully")
+        logging.info(f"F1 Score: {score}")
+        logging.info("Score saved to: latestscore.txt")
