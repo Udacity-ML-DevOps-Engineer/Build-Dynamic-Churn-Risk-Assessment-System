@@ -16,7 +16,7 @@ This project is to build a dynamic churn risk assessment system for corporate cl
 2024-11-12 13:54:12,959 - INFO - Saved final dataframe to ingesteddata\finaldata.csv      
 2024-11-12 13:54:12,960 - INFO - Recorded ingested files to ingesteddata\ingestedfiles.txt
 2024-11-12 13:54:12,960 - INFO - Data ingestion process completed
-```
+
 
 2. Training, scoring, and deploying the model: The model is trained on the data and deployed to a server.
 
