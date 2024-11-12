@@ -17,6 +17,7 @@ This project is to build a dynamic churn risk assessment system for corporate cl
 2024-11-12 13:54:12,960 - INFO - Recorded ingested files to ingesteddata\ingestedfiles.txt
 2024-11-12 13:54:12,960 - INFO - Data ingestion process completed
 ```
+
 2. Training, scoring, and deploying the model: The model is trained on the data and deployed to a server.
 
 ```python .\training.py 
@@ -39,7 +40,6 @@ This project is to build a dynamic churn risk assessment system for corporate cl
 2024-11-12 14:02:48,714 - INFO - Model scoring completed successfully
 2024-11-12 14:02:48,714 - INFO - F1 Score: 0.5714285714285715
 2024-11-12 14:02:48,714 - INFO - Score saved to: latestscore.txt
-
 ```
 
 ```python .\deployment.py
@@ -56,7 +56,7 @@ This project is to build a dynamic churn risk assessment system for corporate cl
 
 Please use the following commands to run the diagnostics:
 
-``````
+```
     python diagnostics.py predictions  # Run only model predictions
     python diagnostics.py statistics  # Run only summary statistics
     python diagnostics.py missing     # Run only missing data check
