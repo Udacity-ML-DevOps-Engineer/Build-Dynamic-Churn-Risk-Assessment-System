@@ -67,7 +67,8 @@ Please use the following commands to run the diagnostics:
     ```
 
 
-```python .\diagnostics.py predictions
+```python
+python .\diagnostics.py predictions
 2024-11-12 14:09:31,070 - INFO - Running model predictions...
 2024-11-12 14:09:31,070 - INFO - Loading model for predictions...
 2024-11-12 14:09:33,252 - INFO - Loading test data...
@@ -75,14 +76,16 @@ Please use the following commands to run the diagnostics:
 [0, 1, 1, 1, 1]
 ```
 
-```python .\diagnostics.py statistics 
+```python
+python .\diagnostics.py statistics 
 2024-11-12 14:11:20,578 - INFO - Running dataframe summary...
 2024-11-12 14:11:20,578 - INFO - Reading data for summary statistics...
 2024-11-12 14:11:20,594 - INFO - Calculating summary statistics...
 [165.65384615384616, 73.0, 284.0332293669446, 1502.923076923077, 955.0, 2192.6449584568304, 26.884615384615383, 14.0, 31.35388578543581, 0.5769230769230769, 1.0, 0.5038314736557788]
 ```
 
-```python .\diagnostics.py timing    
+```python
+python .\diagnostics.py timing    
 2024-11-12 14:15:22,383 - INFO - Measuring execution time...
 2024-11-12 14:15:22,383 - INFO - Measuring execution time for ingestion script...
 2024-11-12 14:15:23,544 - INFO - Starting data ingestion process
